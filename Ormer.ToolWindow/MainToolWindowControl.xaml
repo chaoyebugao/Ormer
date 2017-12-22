@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Ormer.ToolWindow.MainToolWindowControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             Background="{DynamicResource VsBrush.Window}"
+             Foreground="{DynamicResource VsBrush.WindowText}"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300"
+             Name="MainToolWindow"
+             >
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Margin="10" HorizontalAlignment="Center">Ormer code generator</TextBlock>
+            <StackPanel Orientation="Vertical" Margin="10,0,10,0">
+                <Button x:Name="btn_gen_now" Content="生成" Click="btn_gen_now_Click" Margin="0,5"/>
+                <Button x:Name="btn_setting" Content="配置" Margin="0,5" Click="btn_setting_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
