@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Ormer.DatabaseFirst.Common
 {
-    class TableInfo
+    public class ModelInfo
     {
-        public string Name { get; set; }
+        public string ClassName { get; set; }
 
         public string Description { get; set; }
 
-
+        public PropertyInfo[] Properties { get; set; }
     }
 }

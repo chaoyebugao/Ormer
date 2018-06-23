@@ -1,4 +1,0 @@
-﻿Creating a Custom Tool to Generate Multiple Files
-https://www.codeproject.com/Articles/16515/Creating-a-Custom-Tool-to-Generate-Multiple-Files
-
-https://www.cnblogs.com/anderslly/archive/2009/03/15/vs-addin-solution-project.html

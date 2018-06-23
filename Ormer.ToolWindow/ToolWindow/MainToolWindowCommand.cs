@@ -1,16 +1,10 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="MainToolWindowCommand.cs" company="Company">
-//     Copyright (c) Company.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.ComponentModel.Design;
 using System.Globalization;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace Ormer.ToolWindow
+namespace Ormer.ToolWindow.ToolWindow
 {
     /// <summary>
     /// Command handler
@@ -25,7 +19,7 @@ namespace Ormer.ToolWindow
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
-        public static readonly Guid CommandSet = new Guid("05154013-3a2e-40cc-a364-f1a12faf3174");
+        public static readonly Guid CommandSet = new Guid("a2835782-9bdc-47d5-a490-2b774dfa5af3");
 
         /// <summary>
         /// VS Package that provides this command, not null.

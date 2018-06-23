@@ -1,15 +1,8 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="MainToolWindow.cs" company="Company">
-//     Copyright (c) Company.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
-
-namespace Ormer.ToolWindow
+﻿namespace Ormer.ToolWindow.ToolWindow
 {
     using System;
     using System.Runtime.InteropServices;
     using Microsoft.VisualStudio.Shell;
-    using Microsoft.VisualStudio.Shell.Interop;
 
     /// <summary>
     /// This class implements the tool window exposed by this package and hosts a user control.
@@ -22,7 +15,7 @@ namespace Ormer.ToolWindow
     /// implementation of the IVsUIElementPane interface.
     /// </para>
     /// </remarks>
-    [Guid("34be3c32-84e8-4144-9a89-9b3184decba8")]
+    [Guid("eca2a392-ece0-46a0-a7b4-fff65d5bc60b")]
     public class MainToolWindow : ToolWindowPane
     {
         /// <summary>
@@ -30,16 +23,12 @@ namespace Ormer.ToolWindow
         /// </summary>
         public MainToolWindow() : base(null)
         {
-            this.Caption = "Ormer code generator";
-            
+            this.Caption = "Ormer Code Generator";
+
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on
             // the object returned by the Content property.
             this.Content = new MainToolWindowControl();
         }
-        
-        
-
-        
     }
 }

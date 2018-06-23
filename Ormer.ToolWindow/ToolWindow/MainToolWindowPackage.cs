@@ -1,10 +1,4 @@
-﻿//------------------------------------------------------------------------------
-// <copyright file="MainToolWindowPackage.cs" company="Company">
-//     Copyright (c) Company.  All rights reserved.
-// </copyright>
-//------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -16,7 +10,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 
-namespace Ormer.ToolWindow
+namespace Ormer.ToolWindow.ToolWindow
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -46,7 +40,7 @@ namespace Ormer.ToolWindow
         /// <summary>
         /// MainToolWindowPackage GUID string.
         /// </summary>
-        public const string PackageGuidString = "df20f0fb-e3f6-4188-8730-fd698e3ff813";
+        public const string PackageGuidString = "327eaff9-5ce6-4d9f-8f56-974834a2470c";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainToolWindow"/> class.
