@@ -7,80 +7,80 @@ using System.Threading.Tasks;
 namespace Ormer.DatabaseFirst.MySql
 {
     /// <summary>
-    /// 列信息
+    /// MySql ccolumn info model
     /// </summary>
     public class MySqlColumnInfo
     {
         /// <summary>
-        /// 列名称
+        /// Column name
         /// </summary>
         public string Column_Name { get; set; }
 
         /// <summary>
-        /// 列位置排序
+        /// Column ordinal position
         /// </summary>
         public int Ordinal_Position { get; set; }
 
         /// <summary>
-        /// 列默认值
+        /// Column default value if null occurred
         /// </summary>
         public string Column_Default { get; set; }
 
         /// <summary>
-        /// 是否可空
-        /// 可空为YES，否则为NO
+        /// If the column can set null or not
+        /// 'YES' to Nullable otherwise 'NO'
         /// </summary>
         public string Is_Nullable { get; set; }
 
         /// <summary>
-        /// 数据类型
+        /// MySql data type
         /// </summary>
         public string Data_Type { get; set; }
 
         /// <summary>
-        /// 字符最大长度
+        /// The max length for text/string data type
         /// </summary>
         public int? Character_Maximum_Length { get; set; }
 
         /// <summary>
-        /// 字节最大长度
+        /// The max length for text/string data type
         /// </summary>
         public int? Character_Octet_Length { get; set; }
 
         /// <summary>
-        /// 数据长度
+        /// The precision for numeric data type
         /// </summary>
         public int? Numeric_Precision { get; set; }
 
         /// <summary>
-        /// 数据精度
+        /// The scale for numeric data type
         /// </summary>
         public int? Numeric_Scale { get; set; }
 
         /// <summary>
-        /// 日期类型精度
+        /// The precision for datetime data type
         /// </summary>
         public int? DateTime_Precision { get; set; }
 
         /// <summary>
-        /// 列类型
+        /// Data type
         /// </summary>
         public string Column_Type { get; set; }
 
         /// <summary>
-        /// 列键
-        /// 主键为PRI
+        /// Keying
+        /// 'PRI' means the column is the primary key
         /// </summary>
         public string Column_Key { get; set; }
 
         /// <summary>
-        /// 额外信息
-        /// 自增为auto_increment
+        /// Extra info
+        /// 'auto_increment' means the column auto increase self
         /// </summary>
         public string Extra { get; set; }
 
         /// <summary>
-        /// 列注释
+        /// Column description/documentation
         /// </summary>
         public string Column_Comment { get; set; }
         

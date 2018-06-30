@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace Ormer.DatabaseFirst.MySql
 {
+    /// <summary>
+    /// MySql类型转换为C#类型
+    /// </summary>
     class MySqlDataTypeConverter
     {
+        /// <summary>
+        /// C#类型获取
+        /// </summary>
+        /// <param name="col">列信息</param>
+        /// <returns></returns>
         public string GetCSharpDataType(MySqlColumnInfo col)
         {
             var csType = string.Empty;

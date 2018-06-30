@@ -11,9 +11,12 @@ namespace Ormer.DatabaseFirst.MySql
     {
         private readonly string connectionString;
 
-        public MySqlModelConverter(string connectionString)
+        private readonly string modelNamespace;
+
+        public MySqlModelConverter(string connectionString, string modelNamespace)
         {
             this.connectionString = connectionString;
+            this.modelNamespace = modelNamespace;
         }
 
         public IList<ModelInfo> GetModelInfoList()
@@ -65,56 +68,55 @@ namespace Ormer.DatabaseFirst.MySql
                 modelInfoList.Add(model);
             }
 
-
             return modelInfoList;
         }
 
-        public IList<string> GetModelClassStringList()
+        public IList<(string className, string classString)> GetModelClassStringList()
         {
             if (string.IsNullOrEmpty(connectionString))
             {
                 throw new ArgumentNullException("");
             }
             var modelInfoList = GetModelInfoList();
-            var classStringList = new List<string>();
+            var classStringList = new List<(string className, string classString)>();
 
-            var tempClass = @"using System;
+            foreach (var model in modelInfoList)
+            {
+                var properties = new StringBuilder();
+
+                if (model.Properties != null)
+                {
+                    foreach (var prop in model.Properties)
+                    {
+                        var defValue = string.IsNullOrEmpty(prop.Default) ? string.Empty : @"
+		/// Default:" + prop.Default;
+                        var propStr = $@"
+        /// <summary>
+        /// {prop.Description}{defValue}
+        /// </summary>
+        public {prop.CSharpDataType} {prop.Name} {{ get; set; }}
+";
+                        properties.Append(propStr);
+                    }
+                }
+
+                var classStr = $@"using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication2.Models
+namespace {modelNamespace}
 {{
     /// <summary>
-    /// {0}
+    /// {model.Description}
     /// </summary>
-    public class {1}
-    {{{2}
+    public class {model.ClassName}
+    {{{properties}
     }}
 }}
 ";
-            var tempProp = @"
-        /// <summary>
-        /// {0}{1}
-        /// </summary>
-        public {2} {3} {{ get; set; }}
-";
-            foreach (var model in modelInfoList)
-            {
-                var properties = new StringBuilder();
-                if (model.Properties != null)
-                {
-                    foreach (var prop in model.Properties)
-                    {
-                        var def = string.IsNullOrEmpty(prop.Default) ? string.Empty : @"
-		/// Default:" + prop.Default;
-                        properties.AppendFormat(tempProp, prop.Description, def, prop.CSharpDataType, prop.Name);
-                    }
-                }
-                var classStr = string.Format(tempClass,
-                    model.Description, model.ClassName, properties.ToString());
-                classStringList.Add(classStr);
+                classStringList.Add((model.ClassName, classStr));
             }
 
             return classStringList;

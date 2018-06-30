@@ -1,0 +1,17 @@
+{
+  "Default": "cms",
+  "Projects": [
+    {
+      "Name": "cms",
+      "Output": "D:\\qycache\\Lilisi",
+      "Namespace": "Hehe.DatabaseModel",
+      "DbConfig": {
+        "Type": "MySql",
+        "Host": "111.230.18.222",
+        "Username": "root",
+        "Password": "ehV3!rwfESEmbZh8",
+        "Database": "cms"
+      }
+    }
+  ]
+}
