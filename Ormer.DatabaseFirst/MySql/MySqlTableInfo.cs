@@ -7,27 +7,27 @@ using System.Threading.Tasks;
 namespace Ormer.DatabaseFirst.MySql
 {
     /// <summary>
-    /// 表信息
+    /// Mysql table info
     /// </summary>
     public class MySqlTableInfo
     {
         /// <summary>
-        /// 表名称
+        /// Table name
         /// </summary>
         public string Table_Name { get; set; }
 
         /// <summary>
-        /// 表创建时间
+        /// Table create time
         /// </summary>
         public DateTime Create_Time { get; set; }
 
         /// <summary>
-        /// 表更新时间
+        /// Table update time
         /// </summary>
         public DateTime Update_Time { get; set; }
 
         /// <summary>
-        /// 表注释
+        /// Table description/documentation
         /// </summary>
         public string Table_Comment { get; set; }
 
