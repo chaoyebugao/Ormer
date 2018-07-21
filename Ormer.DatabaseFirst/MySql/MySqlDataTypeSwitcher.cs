@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ormer.DatabaseFirst.MySql.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Ormer.DatabaseFirst.MySql
     /// <summary>
     /// MySql类型转换为C#类型
     /// </summary>
-    class MySqlDataTypeConverter
+    class MySqlDataTypeSwitcher
     {
         /// <summary>
         /// C#类型获取
