@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ormer.DatabaseFirst.MySql
+namespace Ormer.DatabaseFirst.MySql.Models
 {
     /// <summary>
     /// MySql ccolumn info model

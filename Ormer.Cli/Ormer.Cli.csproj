@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ormer.Common\Ormer.Common.csproj" />
+    <ProjectReference Include="..\Ormer.Controller\Ormer.Controller.csproj" />
     <ProjectReference Include="..\Ormer.DatabaseFirst\Ormer.DatabaseFirst.csproj" />
   </ItemGroup>
 

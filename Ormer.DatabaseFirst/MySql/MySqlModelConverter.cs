@@ -35,7 +35,7 @@ namespace Ormer.DatabaseFirst.MySql
             }
 
             var modelInfoList = new List<ModelInfo>();
-            var dataTypeConverter = new MySqlDataTypeConverter();
+            var dataTypeSwitcher = new MySqlDataTypeSwitcher();
 
             foreach (var table in tableList)
             {
@@ -58,7 +58,7 @@ namespace Ormer.DatabaseFirst.MySql
                     model.Properties[i] = new PropertyInfo()
                     {
                         Default = column.Column_Default,
-                        CSharpDataType = dataTypeConverter.GetCSharpDataType(column),
+                        CSharpDataType = dataTypeSwitcher.GetCSharpDataType(column),
                         IsPrimaryKey = column.Column_Key == "PRI",
                         Name = column.Column_Name,
                         Nullable = column.Is_Nullable == "YES",

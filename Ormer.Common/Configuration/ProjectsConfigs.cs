@@ -1,17 +1,28 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ormer.Cli.Configuration
+namespace Ormer.Common.Configuration
 {
-    class ProjectsConfigs
+    /// <summary>
+    /// All projects configurations
+    /// </summary>
+    public class ProjectsConfigs
     {
+        /// <summary>
+        /// Default project to process
+        /// </summary>
         public string Default {get;set;}
 
+        /// <summary>
+        /// Projects
+        /// </summary>
         public IEnumerable<ProjectConfigModel> Projects { get; set; }
 
+        /// <summary>
+        /// Default project getter
+        /// </summary>
         public ProjectConfigModel DefaultProject
         {
             get
