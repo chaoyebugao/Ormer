@@ -1,4 +1,5 @@
-﻿using Ormer.DatabaseFirst.Common;
+﻿using Dapper;
+using Ormer.DatabaseFirst.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace Ormer.DatabaseFirst.MySql
             {
                 return null;
             }
-
+            
             var modelInfoList = new List<ModelInfo>();
             var dataTypeSwitcher = new MySqlDataTypeSwitcher();
 
@@ -50,21 +51,17 @@ namespace Ormer.DatabaseFirst.MySql
                 {
                     continue;
                 }
-                var columnListCount = columnList.Count();
-                model.Properties = new PropertyInfo[columnListCount];
-                for (int i = 0; i < columnListCount; i++)
+                
+                model.Properties = columnList.Select(m => new PropertyInfo()
                 {
-                    var column = columnList[i];
-                    model.Properties[i] = new PropertyInfo()
-                    {
-                        Default = column.Column_Default,
-                        CSharpDataType = dataTypeSwitcher.GetCSharpDataType(column),
-                        IsPrimaryKey = column.Column_Key == "PRI",
-                        Name = column.Column_Name,
-                        Nullable = column.Is_Nullable == "YES",
-                        Description = column.Column_Comment,
-                    };
-                }
+                    Default = m.Column_Default,
+                    CSharpDataType = dataTypeSwitcher.GetCSharpDataType(m),
+                    IsPrimaryKey = m.Column_Key == "PRI",
+                    Name = m.Column_Name,
+                    Nullable = m.Is_Nullable == "YES",
+                    Description = m.Column_Comment,
+                });
+                
                 modelInfoList.Add(model);
             }
 

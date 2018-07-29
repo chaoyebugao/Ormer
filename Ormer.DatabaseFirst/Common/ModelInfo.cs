@@ -24,6 +24,6 @@ namespace Ormer.DatabaseFirst.Common
         /// <summary>
         /// Class properties
         /// </summary>
-        public PropertyInfo[] Properties { get; set; }
+        public IEnumerable<PropertyInfo> Properties { get; set; }
     }
 }
