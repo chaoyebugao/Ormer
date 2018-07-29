@@ -23,9 +23,11 @@ namespace Ormer.DatabaseFirst.MySql
             {
                 var sql = $@"
 SELECT * FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_SCHEMA = '{tableSchema}'
+WHERE TABLE_SCHEMA = @TABLE_SCHEMA
 ";
-                return conn.Query<MySqlTableInfo>(sql).ToArray();
+                var dps = new DynamicParameters();
+                dps.Add("TABLE_SCHEMA", tableSchema);
+                return conn.Query<MySqlTableInfo>(sql, dps).ToArray();
             }
         }
 
@@ -35,9 +37,12 @@ WHERE TABLE_SCHEMA = '{tableSchema}'
             {
                 var sql = $@"
 SELECT * FROM INFORMATION_SCHEMA.COLUMNS 
-WHERE TABLE_SCHEMA = '{tableSchema}' AND TABLE_NAME = '{tableName}'
+WHERE TABLE_SCHEMA = @TABLE_SCHEMA AND TABLE_NAME = @TABLE_NAME
 ";
-                return conn.Query<MySqlColumnInfo>(sql).ToArray();
+                var dps = new DynamicParameters();
+                dps.Add("TABLE_SCHEMA", tableSchema);
+                dps.Add("TABLE_NAME", tableName);
+                return conn.Query<MySqlColumnInfo>(sql, dps).ToArray();
             }
         }
 

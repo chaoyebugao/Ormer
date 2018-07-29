@@ -1,0 +1,388 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Dapper;
+using MySql.Data.MySqlClient;
+
+namespace <t:repository.namespace>
+{
+	/// <summary>
+    /// <t:repository.classDoc>
+    /// </summary>
+    public partial class <t:repository.classPrefix>Repository
+    {
+		/// <summary>
+		/// Get the id result from last insertion. If there is not a primary key in table, an empty string will be builded
+		/// </summary>
+		private const string AUTO_INC_IDENTITY_CLAUSE = "<t:repository.autoIncIdentityClause>";
+
+		string writableConnection;
+		string readOnlyConnection;
+
+		/// <summary>
+		/// <t:repository.constructorDoc>
+		/// </summary>
+		public <t:repository.classprefix>Repository(string writableConnection, string readOnlyConnection)
+		{
+			this.writableConnection = writableConnection;
+			this.readOnlyConnection = readOnlyConnection;
+		}
+
+		/// <summary>
+		/// Get writable database connection
+		/// </summary>
+		/// <returns>MySqlConnection instance</returns>
+		public MySqlConnection GetWritableConnection()
+		{
+			return new MySqlConnection(this.writableConnection);
+		}
+
+		/// <summary>
+		/// Get readonly database connection
+		/// </summary>
+		/// <returns>MySqlConnection instance</returns>
+		public MySqlConnection GetReadonlyConnection()
+		{
+			return new MySqlConnection(this.writableConnection);
+		}
+
+		/// <summary>
+		/// The whole table's insertion sql
+		/// </summary>
+		public string InsertSql
+		{
+			get
+			{
+				return <t:repository.insertSql>
+			}
+		}
+
+		/// <summary>
+        /// Create one record with insertion sql
+        /// </summary>
+        /// <param name="dps">Database model</param>
+        /// <returns>
+        /// New id after insertion
+        /// </returns>
+        public <t:repository.primaryKeyType> Create(<t:repository.dabaseModel> dps = null)
+        {
+            using (var conn = GetWritableConnection())
+            {
+                var sql = $"{InsertSql};{AUTO_INC_IDENTITY_CLAUSE}";
+                return conn.ExecuteScalar<<t:repository.primaryKeyType>>(sql, dps);
+            }
+        }
+
+		/// <summary>
+        /// Create one record with insertion sql, asynchronously
+        /// </summary>
+        /// <param name="dps">Database model</param>
+        /// <returns>
+        /// New id after insertion, Asynchronous
+        /// </returns>
+        public Task<t:repository.primaryKeyType> CreateAsync(<t:repository.dabaseModel> dps = null)
+        {
+            using (var conn = GetWritableConnection())
+            {
+                var sql = $"{InsertSql};{AUTO_INC_IDENTITY_CLAUSE}";
+                return conn.ExecuteScalarAsync<<t:repository.primaryKeyType>>(sql, dps);
+            }
+        }
+
+		<t:repository.method.updateByPrimaryKey>
+
+		/// <summary>
+		/// Update specific single column by where clause
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columnName">The column to update</param>
+		/// <param name="columnValue">The value</param>
+		/// <returns>
+		/// The count of records that effected
+		/// </returns>
+		public int UpdateByWhere(string sqlWhere, object whereDps, string columnName, object columnValue)
+		{
+			using (var conn = GetWritableConnection())
+			{
+				var sql = $@"
+UPDATE <t:repository.table> SET <t:repository.column.updateTimeSet> {columnName} = @{columnName} WHERE {sqlWhere}
+";
+				var dps = new DynamicParameters(whereDps);
+				dps.Add("Id", id);
+				dps.Add(columnName, columnValue);
+				return this.ExecuteScalar(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Update specific single column by where clause, asynchronously
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columnName">The column to update</param>
+		/// <param name="columnValue">The value</param>
+		/// <returns>
+		/// The count of records that effected, asynchronous
+		/// </returns>
+		public Task<int> UpdateByWhereAsync(string sqlWhere, object whereDps, string columnName, object columnValue)
+		{
+			using (var conn = GetWritableConnection())
+			{
+				var sql = $@"
+UPDATE <t:repository.table> SET <t:repository.column.updateTimeSet> {columnName} = @{columnName} WHERE {sqlWhere}
+";
+				var dps = new DynamicParameters(whereDps);
+				dps.Add("Id", id);
+				dps.Add(columnName, columnValue);
+				return this.ExecuteScalarAsync(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Update multiple columns by where clause
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="kvs">Column-Parameter key-value pairs, key is the column name and value is the value</param>
+		/// <returns>
+		/// The count of records that effected
+		/// </returns>
+		public int UpdateByWhere(string sqlWhere, object whereDps, params KeyValuePair<string, object> kvs)
+		{
+			using (var conn = GetWritableConnection())
+			{
+				var columnSets = string.Join(", ", kvs.Select(m => $@"{m.Key} = @{m.Key}"));
+				var sql = $@"
+UPDATE <t:repository.table> SET <t:repository.column.updateTimeSet> {columnSets} WHERE {sqlWhere}
+";
+				var dps = new DynamicParameters(whereDps);
+				dps.AddDynamicParams(kvs);
+				return this.ExecuteScalar(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Update multiple columns by where clause, asynchronously
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="kvs">Column-Parameter key-value pairs, key is the column name and value is the value</param>
+		/// <returns>
+		/// The count of records that effected, Asynchronous
+		/// </returns>
+		public Task<int> UpdateByWhereAsync(string sqlWhere, object whereDps, params KeyValuePair<string, object> kvs)
+		{
+			using (var conn = GetWritableConnection())
+			{
+				var columnSets = string.Join(", ", kvs.Select(m => $@"{m.Key} = @{m.Key}"));
+				var sql = $@"
+UPDATE <t:repository.table> SET <t:repository.column.updateTimeSet> {columnSets} WHERE {sqlWhere}
+";
+				var dps = new DynamicParameters(whereDps);
+				dps.AddDynamicParams(kvs);
+				return this.ExecuteScalarAsync(sql, dps);
+			}
+		}
+
+		<t:repository.method.deleteByPrimaryKey>
+
+		/// <summary>
+		/// Delete specific single records by where clause
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <returns>
+		/// The count of records that effected
+		/// </returns>
+		public int DeleteByWhere(string sqlWhere, object whereDps)
+		{
+			using (var conn = GetWritableConnection())
+			{
+				var sql = $@"DELETE FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.ExecuteScalar(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Delete specific records by where clause, asynchronously
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <returns>
+		/// The count of records that effected, asynchronous
+		/// </returns>
+		public Task<int> DeleteByWhereAsync(string sqlWhere, object whereDps)
+		{
+			using (var conn = GetWritableConnection())
+			{
+				var sql = $@"DELETE FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.ExecuteScalarAsync(sql, dps);
+			}
+		}
+
+		<t:repository.method.deleteSoftlyByPrimaryKey>
+
+		<t:repository.method.deleteSoftlyByWhere>
+
+		<t:repository.method.getByPrimaryKey>
+
+		/// <summary>
+		/// Get specific single record by where clause
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columns">Specific columns, "*" for default</param>
+		/// <returns>
+		/// Database model result
+		/// </returns>
+		public <t:repository.dabaseModel> GetByWhere(string sqlWhere, object whereDps, string columns = "*")
+		{
+			using (var conn = GetReadonlyConnection())
+			{
+				var sql = $@"SELECT TOP 1 {columns} FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.QueryFirstOrDefault<<t:repository.dabaseModel>>(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Get specific single record by where clause, asynchronously
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columns">Specific columns, "*" for default</param>
+		/// <returns>
+		/// Database model result, asynchronous
+		/// </returns>
+		public <t:repository.dabaseModel> GetByWhereAsync(string sqlWhere, object whereDps, string columns = "*")
+		{
+			using (var conn = GetReadonlyConnection())
+			{
+				var sql = $@"SELECT TOP 1 {columns} FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.QueryFirstOrDefaultAsync<<t:repository.dabaseModel>>(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Get record list by where clause
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columns">Specific columns, "*" for default</param>
+		/// <returns>
+		/// Database model collection result
+		/// </returns>
+		public IEnumerable<<t:repository.dabaseModel>> GetListByWhere(string sqlWhere, object whereDps, string columns = "*")
+		{
+			using (var conn = GetReadonlyConnection())
+			{
+				var sql = $@"SELECT {columns} FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.Query<<t:repository.dabaseModel>>(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Get record list by where clause, asynchronously
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columns">Specific columns, "*" for default</param>
+		/// <returns>
+		/// Database model collection result, asynchronous
+		/// </returns>
+		public Task<IEnumerable<<t:repository.dabaseModel>>> GetListByWhereAsync(string sqlWhere, object whereDps, string columns = "*")
+		{
+			using (var conn = GetReadonlyConnection())
+			{
+				var sql = $@"SELECT {columns} FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.QueryAsync<<t:repository.dabaseModel>>(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Get specific single record as generic model by where clause
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columns">Specific columns, "*" for default</param>
+		/// <returns>
+		/// Generic model result
+		/// </returns>
+		public T GetByWhere<T>(string sqlWhere, object whereDps, string columns = "*")
+		{
+			using (var conn = GetReadonlyConnection())
+			{
+				var sql = $@"SELECT TOP 1 {columns} FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.QueryFirstOrDefault<<t:repository.dabaseModel>>(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Get specific single record as generic model by where clause, asynchronously
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columns">Specific columns, "*" for default</param>
+		/// <returns>
+		/// Generic model result, asynchronous
+		/// </returns>
+		public T GetByWhereAsync<T>(string sqlWhere, object whereDps, string columns = "*")
+		{
+			using (var conn = GetReadonlyConnection())
+			{
+				var sql = $@"SELECT TOP 1 {columns} FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.QueryFirstOrDefaultAsync<T>(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Get records as generic list by where clause
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columns">Specific columns, "*" for default</param>
+		/// <returns>
+		/// Generic model collection result
+		/// </returns>
+		public IEnumerable<T> GetListByWhere<T>(string sqlWhere, object whereDps, string columns = "*")
+		{
+			using (var conn = GetReadonlyConnection())
+			{
+				var sql = $@"SELECT {columns} FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.Query<T>(sql, dps);
+			}
+		}
+
+		/// <summary>
+		/// Get records as generic list by where clause, asynchronously
+		/// </summary>
+		/// <param name="sqlWhere">Where clause e.g., "Code = @Code"</param>
+		/// <param name="whereDps">Parameters for the sqlWhere clause</param>
+		/// <param name="columns">Specific columns, "*" for default</param>
+		/// <returns>
+		/// Generic model collection result, asynchronous
+		/// </returns>
+		public Task<IEnumerable<T>> GetListByWhereAsync<T>(string sqlWhere, object whereDps, string columns = "*")
+		{
+			using (var conn = GetReadonlyConnection())
+			{
+				var sql = $@"SELECT {columns} FROM <t:repository.table> WHERE {sqlWhere}";
+				var dps = new DynamicParameters(whereDps);
+				return this.QueryAsync<T>(sql, dps);
+			}
+		}
+		
+	}
+}

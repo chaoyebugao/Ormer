@@ -8,12 +8,12 @@ namespace Ormer.DatabaseFirst.SqlServer.Models
     {
         public int id { get; set; }
 
-        public int name { get; set; }
+        public string name { get; set; }
 
-        public int crdate { get; set; }
+        public DateTime crdate { get; set; }
 
-        public int refdate { get; set; }
+        public DateTime refdate { get; set; }
 
-        public int description { get; set; }
+        public string description { get; set; }
     }
 }
