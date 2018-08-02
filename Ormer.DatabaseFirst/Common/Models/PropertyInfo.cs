@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ormer.DatabaseFirst.Common
+namespace Ormer.DatabaseFirst.Common.Models
 {
     /// <summary>
     /// Class property information

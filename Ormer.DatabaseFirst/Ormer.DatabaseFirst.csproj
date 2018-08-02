@@ -10,6 +10,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Common\Templates\Model.Class.Property.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Common\Templates\Model.Class.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MySql\Templates\Repository.Class.Method.DeleteByPrimaryKey.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MySql\Templates\Repository.Class.Method.DeleteSoftlyByPrimaryKey.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MySql\Templates\Repository.Class.Method.DeleteSoftlyByWhere.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MySql\Templates\Repository.Class.Method.GetByPrimaryKey.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="MySql\Templates\Repository.Class.Method.UpdateByPrimaryKey.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="MySql\Templates\Repository.Class.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
