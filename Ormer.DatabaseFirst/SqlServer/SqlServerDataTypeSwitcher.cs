@@ -155,6 +155,11 @@ namespace Ormer.DatabaseFirst.SqlServer
                         csType = "object";
                         break;
                     }
+                case "sysname":
+                    {
+                        csType = "string";
+                        break;
+                    }
                 default:
                     {
                         throw new Exception("Unknown database data type.");

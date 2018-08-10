@@ -19,12 +19,14 @@ namespace Ormer.DatabaseFirst.SqlServer
 
         public IEnumerable<SqlServerTableInfo> GetTableList()
         {
+            //TODO:exclude sysdiagrams
             using (var conn = new SqlConnection(connectionString))
             {
                 var sql = $@"
-SELECT so.id, so.[name], so.crdate, so.refdate, ep.value AS [description]
-FROM sys.SysObjects AS so LEFT JOIN sys.extended_properties AS ep ON ep.major_id = so.id
-WHERE so.XType='U' AND ep.minor_id = 0
+SELECT so.id, so.[name], so.crdate, so.refdate,
+	(SELECT TOP 1 ep.[value] FROM sys.extended_properties AS ep WHERE ep.major_id = so.id AND ep.minor_id = 0) AS [description]
+FROM sys.SysObjects AS so
+WHERE so.XType='U'
 ";
                 return conn.Query<SqlServerTableInfo>(sql);
             }

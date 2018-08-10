@@ -49,6 +49,11 @@ namespace Ormer.Common.Configuration
                             conn = $"server={Host};User Id={Username};password={Password};Database={Database};SslMode=None";
                             break;
                         }
+                    case DatabaseTypes.SQLServer:
+                        {
+                            conn = $"Data Source={Host};Initial Catalog={Database};;User ID={Username};Pwd={Password}";
+                            break;
+                        }
                 }
 
                 return conn;

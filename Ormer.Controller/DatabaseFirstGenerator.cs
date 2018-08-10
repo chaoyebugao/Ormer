@@ -1,6 +1,7 @@
 ﻿using Ormer.Common;
 using Ormer.Common.Configuration;
 using Ormer.DatabaseFirst.MySql;
+using Ormer.DatabaseFirst.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,7 +33,16 @@ namespace Ormer.Controller
                     }
                 case DatabaseTypes.SQLServer:
                     {
+                        var modelConverter = new SqlServerModelConverter(prj.DbConfig.ConnectionString, prj.Namespace);
+                        var classList = modelConverter.GetModelClassStringList();
 
+                        Directory.CreateDirectory(prj.Output);
+
+                        foreach (var (className, classString) in classList)
+                        {
+                            var path = Path.Combine(prj.Output, className + ".cs");
+                            File.WriteAllText(path, classString);
+                        }
                         break;
                     }
             }

@@ -87,6 +87,8 @@ namespace Ormer.DatabaseFirst.MySql
                     {
                         var defValue = string.IsNullOrEmpty(prop.Default) ? string.Empty : @"
 		/// Default:" + prop.Default;
+
+                        //TODO:summary换行问题
                         var propStr = $@"
         /// <summary>
         /// {prop.Description}{defValue}
