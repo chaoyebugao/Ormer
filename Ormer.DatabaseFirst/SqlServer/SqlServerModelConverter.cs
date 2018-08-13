@@ -64,5 +64,56 @@ namespace Ormer.DatabaseFirst.SqlServer
 
             return modelInfoList;
         }
+
+        public IList<(string className, string classString)> GetModelClassStringList()
+        {
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentNullException("");
+            }
+            var modelInfoList = GetModelInfoList();
+            var classStringList = new List<(string className, string classString)>();
+
+            foreach (var model in modelInfoList)
+            {
+                var properties = new StringBuilder();
+
+                if (model.Properties != null)
+                {
+                    foreach (var prop in model.Properties)
+                    {
+                        var defValue = string.IsNullOrEmpty(prop.Default) ? string.Empty : @"
+		/// Default:" + prop.Default;
+                        var propStr = $@"
+        /// <summary>
+        /// {prop.Description}{defValue}
+        /// </summary>
+        public {prop.CSharpDataType} {prop.Name} {{ get; set; }}
+";
+                        properties.Append(propStr);
+                    }
+                }
+
+                var classStr = $@"using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace {modelNamespace}
+{{
+    /// <summary>
+    /// {model.Description}
+    /// </summary>
+    public class {model.ClassName}
+    {{{properties}
+    }}
+}}
+";
+                classStringList.Add((model.ClassName, classStr));
+            }
+
+            return classStringList;
+        }
     }
 }

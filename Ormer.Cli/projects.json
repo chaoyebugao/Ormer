@@ -1,28 +1,28 @@
 {
-  "Default": "cms",
+  "Default": "xxx",
   "Projects": [
     {
-      "Name": "cms",
+      "Name": "xxx",
       "Output": "D:\\qycache\\Lilisi",
       "Namespace": "Hehe.DatabaseModel",
       "DbConfig": {
         "Type": "MySQL",
-        "Host": "111.230.18.222",
-        "Username": "root",
-        "Password": "ehV3!rwfESEmbZh8",
-        "Database": "cms"
+        "Host": "xxxx",
+        "Username": "xxxx",
+        "Password": "xxxxx",
+        "Database": "xxxx"
       }
     },
     {
-      "Name": "CFS_Customer",
-      "Output": "D:\\qycache\\Lilisi2",
-      "Namespace": "Hehe.DatabaseModel",
+      "Name": "xxxxx",
+      "Output": "D:\\qycache",
+      "Namespace": "xxxx",
       "DbConfig": {
         "Type": "SQLServer",
-        "Host": "192.168.31.209",
-        "Username": "ddzfkj",
-        "Password": "SZnesec!))#1003",
-        "Database": "CFS_Customer"
+        "Host": "xxx",
+        "Username": "xx",
+        "Password": "xx",
+        "Database": "xx"
       }
     }
   ]
