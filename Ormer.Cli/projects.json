@@ -1,0 +1,29 @@
+{
+  "Default": "xxx",
+  "Projects": [
+    {
+      "Name": "xxx",
+      "Output": "D:\\qycache\\Lilisi",
+      "Namespace": "Hehe.DatabaseModel",
+      "DbConfig": {
+        "Type": "MySQL",
+        "Host": "xxxx",
+        "Username": "xxxx",
+        "Password": "xxxxx",
+        "Database": "xxxx"
+      }
+    },
+    {
+      "Name": "xxxxx",
+      "Output": "D:\\qycache",
+      "Namespace": "xxxx",
+      "DbConfig": {
+        "Type": "SQLServer",
+        "Host": "xxx",
+        "Username": "xx",
+        "Password": "xx",
+        "Database": "xx"
+      }
+    }
+  ]
+}
