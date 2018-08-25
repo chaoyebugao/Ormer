@@ -1,6 +1,7 @@
 ﻿using Ormer.DatabaseFirst.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -75,6 +76,9 @@ namespace Ormer.DatabaseFirst.MySql
             var modelInfoList = GetModelInfoList();
             var classStringList = new List<(string className, string classString)>();
 
+            var tempModelClass = File.ReadAllText(@"Common\Templates\Model.Class.txt");
+            var tempModelClassProperty = File.ReadAllText(@"Common\Templates\Model.Class.Property.txt");
+
             foreach (var model in modelInfoList)
             {
                 var properties = new StringBuilder();
@@ -83,37 +87,27 @@ namespace Ormer.DatabaseFirst.MySql
                 {
                     foreach (var prop in model.Properties)
                     {
-                        var defValue = string.IsNullOrEmpty(prop.Default) ? string.Empty : @"
-		/// Default:" + prop.Default;
+                        var tempProp = tempModelClassProperty;
 
-                        //TODO:summary换行问题
-                        var propStr = $@"
-        /// <summary>
-        /// {prop.Description}{defValue}
-        /// </summary>
-        public {prop.CSharpDataType} {prop.Name} {{ get; set; }}
-";
-                        properties.Append(propStr);
+                        var defValue = string.IsNullOrEmpty(prop.Default) ? string.Empty :  @"Default:" + prop.Default;
+                        var description = prop.Description.Replace(Environment.NewLine, Environment.NewLine + "/// ");
+                        tempProp = tempProp.ReplaceForSummary("<t:model.property.summary>", description, defValue);
+                        tempProp = tempProp.Replace("<t:model.property.csharpDataType>", prop.CSharpDataType);
+                        tempProp = tempProp.Replace("<t:model.property.name>", prop.Name);
+
+                        tempProp = tempProp.TrimThenAppendNewLine();
+                        properties.Append(tempProp);
                     }
                 }
 
-                var classStr = $@"using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+                var tempClass = tempModelClass;
+                tempClass = tempClass.Replace("<t:model.namespace>", modelNamespace);
+                tempClass = tempClass.ReplaceForSummary("<t:model.summary>", model.Description, alignFirstLine:true);
+                tempClass = tempClass.Replace("<t:model.className>", model.ClassName);
+                var propertiesStr = properties.ToString().TrimEnd(Environment.NewLine.ToCharArray());
+                tempClass = tempClass.ReplaceAndAlignToFirstLine("<t:model.properties>", propertiesStr);
 
-namespace {modelNamespace}
-{{
-    /// <summary>
-    /// {model.Description}
-    /// </summary>
-    public class {model.ClassName}
-    {{{properties}
-    }}
-}}
-";
-                classStringList.Add((model.ClassName, classStr));
+                classStringList.Add((model.ClassName, tempClass));
             }
 
             return classStringList;

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace <t:model.namespace>
 {
-    /// <summary>
-    /// <t:model.description>
-    /// </summary>
-    public class <t:model.className>
+    <t:model.summary>
+    public partial class <t:model.className>
     {
 		<t:model.properties>
     }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Ormer.Common.Configuration;
 using Ormer.Controller;
-using Ormer.DatabaseFirst.MySql;
+using System;
 using System.IO;
 
 namespace Ormer.Cli
@@ -10,15 +10,22 @@ namespace Ormer.Cli
     {
         static void Main(string[] args)
         {
-            var builder = new ConfigurationBuilder()
+            try
+            {
+                var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("projects.json", optional: true, reloadOnChange: true);
-            var projectsConfiguration = builder.Build();
+                var projectsConfiguration = builder.Build();
 
-            var prjsConfig = projectsConfiguration.Get<ProjectsConfigs>();
-            
-            var generator = new DatabaseFirstGenerator();
-            generator.Generate(prjsConfig);
+                var prjsConfig = projectsConfiguration.Get<ProjectsConfigs>();
+
+                var generator = new DatabaseFirstGenerator();
+                generator.Generate(prjsConfig);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }

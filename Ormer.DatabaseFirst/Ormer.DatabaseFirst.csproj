@@ -10,6 +10,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ormer.Common\Ormer.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Common\Templates\Common.Summary.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Common\Templates\Model.Class.Property.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

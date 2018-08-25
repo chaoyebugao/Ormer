@@ -1,16 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace <t:model.namespace>
-{
-    /// <summary>
-    /// <t:model.description>
-    /// </summary>
-    public class <t:model.className>
-    {
-		<t:model.properties>
-    }
-}
+﻿
+<t:model.property.summary>
+public <t:model.property.csharpDataType> <t:model.property.name> { get; set; }
