@@ -15,14 +15,14 @@ namespace Ormer.Common.Configuration
         public string Name { get; set; }
 
         /// <summary>
-        /// Classes output path
+        /// Model classes output setting
         /// </summary>
-        public string Output { get; set; }
+        public OutputModel ModelOutput { get; set; }
 
         /// <summary>
-        /// Classes namespace
+        /// Repository classes output setting
         /// </summary>
-        public string Namespace { get; set; }
+        public OutputModel RepositoryOutput { get; set; }
 
         /// <summary>
         /// Target database config

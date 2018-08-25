@@ -19,30 +19,14 @@ namespace Ormer.Controller
             {
                 case DatabaseTypes.MySQL:
                     {
-                        var modelConverter = new MySqlModelConverter(prj.DbConfig.ConnectionString, prj.Namespace);
-                        var classList = modelConverter.GetModelClassStringList();
-
-                        Directory.CreateDirectory(prj.Output);
-
-                        foreach (var (className, classString) in classList)
-                        {
-                            var path = Path.Combine(prj.Output, className + ".cs");
-                            File.WriteAllText(path, classString);
-                        }
+                        var modelGenerator = new MySqlModelGenerator(prj.DbConfig.ConnectionString, prj.ModelOutput);
+                        modelGenerator.Generate();
                         break;
                     }
                 case DatabaseTypes.SQLServer:
                     {
-                        var modelConverter = new SqlServerModelConverter(prj.DbConfig.ConnectionString, prj.Namespace);
-                        var classList = modelConverter.GetModelClassStringList();
-
-                        Directory.CreateDirectory(prj.Output);
-
-                        foreach (var (className, classString) in classList)
-                        {
-                            var path = Path.Combine(prj.Output, className + ".cs");
-                            File.WriteAllText(path, classString);
-                        }
+                        var modelGenerator = new SqlServerModelGenerator(prj.DbConfig.ConnectionString, prj.ModelOutput);
+                        modelGenerator.Generate();
                         break;
                     }
             }

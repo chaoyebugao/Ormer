@@ -13,8 +13,10 @@ namespace System
     /// </summary>
     public static class StringExtensions
     {
+        //A marker to replace newline
         private const string MarkerCommonNewline = "<t:common.newline>";
 
+        //Temp data folder
         private const string Folder_TempData = @"Cache\Temp\";
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace System
             str = str.TrimNewLine();
             return str + Environment.NewLine + Environment.NewLine;
         }
-
+        
         public static string Replace(this string str, string marker, string newValue, bool backspaceIfNullOrEmpty)
         {
             if (string.IsNullOrEmpty(str))

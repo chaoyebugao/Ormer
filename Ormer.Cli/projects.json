@@ -1,28 +1,22 @@
 {
-  "Default": "xxx",
+  "Default": "TestMySql",
   "Projects": [
     {
-      "Name": "xxx",
-      "Output": "D:\\qycache\\Lilisi",
-      "Namespace": "Hehe.DatabaseModel",
+      "Name": "TestMySql",
+      "ModelOutput": {
+        "Output": "D:\\OrmOutputTest\\Models",
+        "Namespace": "Orm.Database.Models"
+      },
+      "RepositoryOutput": {
+        "Output": "D:\\OrmOutputTest\\Repositories",
+        "Namespace": "Orm.Database.Repositories"
+      },
       "DbConfig": {
         "Type": "MySQL",
-        "Host": "xxxx",
-        "Username": "xxxx",
-        "Password": "xxxxx",
-        "Database": "xxxx"
-      }
-    },
-    {
-      "Name": "xxxxx",
-      "Output": "D:\\qycache",
-      "Namespace": "xxxx",
-      "DbConfig": {
-        "Type": "SQLServer",
-        "Host": "xxx",
-        "Username": "xx",
-        "Password": "xx",
-        "Database": "xx"
+        "Host": "111.230.18.222",
+        "Username": "root",
+        "Password": "ehV3!rwfESEmbZh8",
+        "Database": "cms"
       }
     }
   ]
