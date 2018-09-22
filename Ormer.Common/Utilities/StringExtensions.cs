@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace System
@@ -126,6 +127,10 @@ namespace System
 
         public static string ReplaceNewlineWith(this string str, string newValue)
         {
+            if (str == null)
+            {
+                return null;
+            }
             str = str.Replace("\r\n", MarkerCommonNewline);
             str = str.Replace("\r", MarkerCommonNewline);
             str = str.Replace("\n", MarkerCommonNewline);
@@ -180,6 +185,73 @@ namespace System
             }
 
             return string.Empty;
+        }
+
+        public static string ToFirstLetterLower(this string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return str;
+            }
+
+            return char.ToLower(str[0]) + str.Substring(1);
+        }
+
+        public static string ToFirstLetterUpper(this string str)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return str;
+            }
+
+            return char.ToUpper(str[0]) + str.Substring(1);
+        }
+
+        /// <summary>
+        /// 单词变成单数形式
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public static string ToSingular(this string word)
+        {
+            var plural1 = new Regex("(?<keep>[^aeiou])ies$");
+            var plural2 = new Regex("(?<keep>[aeiou]y)s$");
+            var plural3 = new Regex("(?<keep>[sxzh])es$");
+            var plural4 = new Regex("(?<keep>[^sxzhyu])s$");
+
+            if (plural1.IsMatch(word))
+                return plural1.Replace(word, "${keep}y");
+            else if (plural2.IsMatch(word))
+                return plural2.Replace(word, "${keep}");
+            else if (plural3.IsMatch(word))
+                return plural3.Replace(word, "${keep}");
+            else if (plural4.IsMatch(word))
+                return plural4.Replace(word, "${keep}");
+
+            return word;
+        }
+        /// <summary>
+        /// 单词变成复数形式
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public static string ToPlural(this string word)
+        {
+            var plural1 = new Regex("(?<keep>[^aeiou])y$");
+            var plural2 = new Regex("(?<keep>[aeiou]y)$");
+            var plural3 = new Regex("(?<keep>[sxzh])$");
+            var plural4 = new Regex("(?<keep>[^sxzhy])$");
+
+            if (plural1.IsMatch(word))
+                return plural1.Replace(word, "${keep}ies");
+            else if (plural2.IsMatch(word))
+                return plural2.Replace(word, "${keep}s");
+            else if (plural3.IsMatch(word))
+                return plural3.Replace(word, "${keep}es");
+            else if (plural4.IsMatch(word))
+                return plural4.Replace(word, "${keep}s");
+
+            return word;
         }
 
     }

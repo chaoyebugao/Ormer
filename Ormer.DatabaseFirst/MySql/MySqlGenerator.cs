@@ -5,33 +5,31 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Ormer.DatabaseFirst.MySql
 {
-    public class MySqlModelGenerator : ModelGenerator
+    public class MySqlGenerator : RepsitoryGenerator
     {
-        public MySqlModelGenerator(string connectionString, OutputModel output)
-            :base(connectionString, output)
+        public MySqlGenerator(ProjectConfigModel projectConfig)
+            : base(projectConfig)
         {
-            
         }
 
         public override IList<ModelInfo> GetModelInfoList()
         {
-            if (string.IsNullOrEmpty(connectionString))
+            if (string.IsNullOrEmpty(projectConfig.DbConfig.ConnectionString))
             {
                 throw new ArgumentNullException("connectionString");
             }
 
-            var ddlHelpr = new MySqlDdlHelper(connectionString, "cms");
+            var ddlHelpr = new MySqlDdlHelper(projectConfig.DbConfig.ConnectionString, projectConfig.DbConfig.Database);
             var tableList = ddlHelpr.GetTableList();
 
             if (tableList == null || tableList.Count() == 0)
             {
                 return null;
             }
-            
+
             var modelInfoList = new List<ModelInfo>();
             var dataTypeSwitcher = new MySqlDataTypeSwitcher();
 
@@ -48,22 +46,28 @@ namespace Ormer.DatabaseFirst.MySql
                 {
                     continue;
                 }
-                
+
                 model.Properties = columnList.Select(m => new PropertyInfo()
                 {
                     Default = m.Column_Default,
                     CSharpDataType = dataTypeSwitcher.GetCSharpDataType(m),
                     IsPrimaryKey = m.Column_Key == "PRI",
-                    Name = m.Column_Name,
+                    NameOriginal = m.Column_Name,
                     Nullable = m.Is_Nullable == "YES",
                     Description = m.Column_Comment,
                 });
-                
+
                 modelInfoList.Add(model);
             }
 
             return modelInfoList;
         }
+
+        protected override string DbConnectionClass => "MySql.Data.MySqlClient.MySqlConnection";
+
+        protected override string AutoIncIdentityClause => "SELECT LAST_INSERT_ID()";
+
+        protected override string GetCurrentDateTimeFunc => "NOW()";
 
     }
 }

@@ -12,10 +12,65 @@ namespace Ormer.DatabaseFirst.Common.Models
     public class PropertyInfo
     {
         /// <summary>
-        /// Property name
+        /// Property original name
         /// </summary>
-        public string Name { get; set; }
-        
+        public string NameOriginal { get; set; }
+
+        /// <summary>
+        /// Property original name wth plural
+        /// </summary>
+        public string NamePluralOriginal
+        {
+            get
+            {
+                return NameOriginal.ToPlural();
+            }
+        }
+
+        /// <summary>
+        /// Property name for parameter
+        /// </summary>
+        public string NameFirstLetterLower
+        {
+            get
+            {
+                return NameOriginal.ToFirstLetterLower();
+            }
+        }
+
+        /// <summary>
+        /// Property name for parameter with plural
+        /// </summary>
+        public string NamePluralFirstLetterLower
+        {
+            get
+            {
+                return NameFirstLetterLower.ToPlural();
+            }
+        }
+
+        /// <summary>
+        /// Property name for method/property naming
+        /// </summary>
+        public string NameFirstLetterUpper
+        {
+            get
+            {
+                return NameOriginal.ToFirstLetterUpper();
+            }
+        }
+
+        /// <summary>
+        /// Property name for method/property naming with plural
+        /// </summary>
+        public string NamePluralFirstLetterUpper
+        {
+            get
+            {
+                return NameFirstLetterUpper.ToPlural();
+            }
+        }
+
         /// <summary>
         /// C# data type
         /// </summary>

@@ -23,22 +23,22 @@
     <None Update="Common\Templates\Model.Class.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="MySql\Templates\Repository.Class.Method.DeleteByPrimaryKey.txt">
+    <None Update="Common\Templates\Repository.Class.Method.DeleteByPrimaryKey.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="MySql\Templates\Repository.Class.Method.DeleteSoftlyByPrimaryKey.txt">
+    <None Update="Common\Templates\Repository.Class.Method.DeleteSoftlyByPrimaryKey.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="MySql\Templates\Repository.Class.Method.DeleteSoftlyByWhere.txt">
+    <None Update="Common\Templates\Repository.Class.Method.DeleteSoftlyByWhere.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="MySql\Templates\Repository.Class.Method.GetByPrimaryKey.txt">
+    <None Update="Common\Templates\Repository.Class.Method.GetByPrimaryKey.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="MySql\Templates\Repository.Class.Method.UpdateByPrimaryKey.txt">
+    <None Update="Common\Templates\Repository.Class.Method.UpdateByPrimaryKey.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="MySql\Templates\Repository.Class.txt">
+    <None Update="Common\Templates\Repository.Class.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

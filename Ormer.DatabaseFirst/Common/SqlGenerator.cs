@@ -18,7 +18,7 @@ namespace Ormer.DatabaseFirst.Common
                 throw new ArgumentNullException("model.Properties");
             }
 
-            var columns = model.Properties.Where(m => !m.IsPrimaryKey).Select(m => m.Name);
+            var columns = model.Properties.Where(m => !m.IsPrimaryKey).Select(m => m.NameOriginal);
 
             var columnFields = string.Join(", ", columns);
             var columnValues = string.Join(", ", columns.Select(m => $@"{m} = @{m}"));

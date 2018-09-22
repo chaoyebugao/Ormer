@@ -19,14 +19,17 @@ namespace Ormer.Controller
             {
                 case DatabaseTypes.MySQL:
                     {
-                        var modelGenerator = new MySqlModelGenerator(prj.DbConfig.ConnectionString, prj.ModelOutput);
-                        modelGenerator.Generate();
+                        var generator = new MySqlGenerator(prj);
+                        generator.GenerateModels();
+                        generator.GenerateRepositories();
+
                         break;
                     }
                 case DatabaseTypes.SQLServer:
                     {
-                        var modelGenerator = new SqlServerModelGenerator(prj.DbConfig.ConnectionString, prj.ModelOutput);
-                        modelGenerator.Generate();
+                        var modelGenerator = new SqlServerModelGenerator(prj);
+                        modelGenerator.GenerateModels();
+
                         break;
                     }
             }

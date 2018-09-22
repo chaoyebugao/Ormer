@@ -9,26 +9,24 @@ namespace Ormer.DatabaseFirst.Common
 {
     public abstract class ModelGenerator
     {
-        protected readonly string connectionString;
+        protected readonly ProjectConfigModel projectConfig;
 
-        protected readonly OutputModel output;
-
-        public ModelGenerator(string connectionString, OutputModel output)
+        public ModelGenerator(ProjectConfigModel projectConfig)
         {
-            this.connectionString = connectionString;
-            this.output = output;
+            this.projectConfig = projectConfig;
         }
 
         public abstract IList<ModelInfo> GetModelInfoList();
 
         public IList<(string className, string classString)> GetModelClassStringList()
         {
-            if (string.IsNullOrEmpty(connectionString))
-            {
-                throw new ArgumentNullException("");
-            }
             var modelInfoList = GetModelInfoList();
-            var classStringList = new List<(string className, string classString)>();
+            if(modelInfoList == null)
+            {
+                throw new ArgumentNullException("modelInfoList");
+            }
+
+            var classList = new List<(string className, string classString)>();
 
             var tempModelClass = File.ReadAllText(@"Common\Templates\Model.Class.txt");
             var tempModelClassProperty = File.ReadAllText(@"Common\Templates\Model.Class.Property.txt");
@@ -47,7 +45,7 @@ namespace Ormer.DatabaseFirst.Common
                         var description = prop.Description.Replace(Environment.NewLine, Environment.NewLine + "/// ");
                         tempProp = tempProp.ReplaceForSummary("<t:model.property.summary>", description, defValue);
                         tempProp = tempProp.Replace("<t:model.property.csharpDataType>", prop.CSharpDataType);
-                        tempProp = tempProp.Replace("<t:model.property.name>", prop.Name);
+                        tempProp = tempProp.Replace("<t:model.property.name>", prop.NameOriginal);
 
                         tempProp = tempProp.TrimThenAppendNewLine();
                         properties.Append(tempProp);
@@ -55,25 +53,25 @@ namespace Ormer.DatabaseFirst.Common
                 }
 
                 var tempClass = tempModelClass;
-                tempClass = tempClass.Replace("<t:model.namespace>", output.Namespace);
+                tempClass = tempClass.Replace("<t:model.namespace>", projectConfig.ModelOutput.Namespace);
                 tempClass = tempClass.ReplaceForSummary("<t:model.summary>", model.Description, alignFirstLine: true);
                 tempClass = tempClass.Replace("<t:model.className>", model.ClassName);
                 var propertiesStr = properties.ToString().TrimEnd(Environment.NewLine.ToCharArray());
                 tempClass = tempClass.ReplaceAndAlignToFirstLine("<t:model.properties>", propertiesStr);
 
-                classStringList.Add((model.ClassName, tempClass));
+                classList.Add((model.ClassName, tempClass));
             }
 
-            return classStringList;
+            return classList;
         }
 
-        public void Generate()
+        public void GenerateModels()
         {
-            Directory.CreateDirectory(output.Output);
+            Directory.CreateDirectory(projectConfig.ModelOutput.Output);
             var classList = GetModelClassStringList();
             foreach (var (className, classString) in classList)
             {
-                var path = Path.Combine(output.Output, className + ".cs");
+                var path = Path.Combine(projectConfig.ModelOutput.Output, className + ".cs");
                 File.WriteAllText(path, classString);
             }
         }

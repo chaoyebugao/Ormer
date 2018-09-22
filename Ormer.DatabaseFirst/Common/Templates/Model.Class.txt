@@ -9,6 +9,6 @@ namespace <t:model.namespace>
     <t:model.summary>
     public partial class <t:model.className>
     {
-		<t:model.properties>
+        <t:model.properties>
     }
 }

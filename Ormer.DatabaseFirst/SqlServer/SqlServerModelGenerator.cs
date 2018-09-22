@@ -10,19 +10,19 @@ namespace Ormer.DatabaseFirst.SqlServer
 {
     public class SqlServerModelGenerator : ModelGenerator
     {
-        public SqlServerModelGenerator(string connectionString, OutputModel output)
-            :base(connectionString, output)
+        public SqlServerModelGenerator(ProjectConfigModel projectConfig)
+            : base(projectConfig)
         {
         }
 
         public override IList<ModelInfo> GetModelInfoList()
         {
-            if (string.IsNullOrEmpty(connectionString))
+            if (string.IsNullOrEmpty(projectConfig.DbConfig.ConnectionString))
             {
                 throw new ArgumentNullException("connectionString");
             }
 
-            var ddlHelpr = new SqlServerDdlHelper(connectionString);
+            var ddlHelpr = new SqlServerDdlHelper(projectConfig.DbConfig.ConnectionString);
             var tableList = ddlHelpr.GetTableList();
 
             if (tableList == null || tableList.Count() == 0)
@@ -46,17 +46,17 @@ namespace Ormer.DatabaseFirst.SqlServer
                 {
                     continue;
                 }
-                
+
                 model.Properties = columnList.Select(m => new PropertyInfo()
                 {
                     Default = m.@default,
                     CSharpDataType = dataTypeSwitcher.GetCSharpDataType(m),
                     IsPrimaryKey = m.is_primary_key == true,
-                    Name = m.column_name,
+                    NameOriginal = m.column_name,
                     Nullable = m.is_nullable == true,
                     Description = m.description,
                 });
-                
+
                 modelInfoList.Add(model);
             }
 

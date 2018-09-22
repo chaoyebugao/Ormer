@@ -1,0 +1,151 @@
+﻿/// <summary>
+/// Get specific record by primary key <t:repository.primaryKey.nameOriginal>
+/// </summary>
+/// <param name="<t:repository.primaryKey.name>">Target record <t:repository.primaryKey.nameOriginal></param>
+/// <param name="columns">Specific columns, "*" for default</param>
+/// <returns>
+/// Database model result
+/// </returns>
+public <t:repository.dabaseModel> GetBy<t:repository.primaryKey.Name>(<t:repository.primaryKey.type> <t:repository.primaryKey.name>, string columns = "*")
+{
+    using (var conn = GetReadonlyConnection())
+    {
+        var sql = $@"SELECT TOP 1 {columns} FROM <t:repository.table> WHERE <t:repository.primaryKey.nameOriginal> = @<t:repository.primaryKey.nameOriginal>";
+        var dps = new DynamicParameters();
+        dps.Add("<t:repository.primaryKey.nameOriginal>", <t:repository.primaryKey.name>);
+        return this.QueryFirstOrDefault<<t:repository.dabaseModel>>(sql, dps);
+    }
+}
+
+/// <summary>
+/// Get specific record by primary key <t:repository.primaryKey.nameOriginal>, asynchronously
+/// </summary>
+/// <param name="<t:repository.primaryKey.name>">Target record <t:repository.primaryKey.nameOriginal></param>
+/// <param name="columns">Specific columns, "*" for default</param>
+/// <returns>
+/// Database model result, asynchronous
+/// </returns>
+public Task<<t:repository.dabaseModel>> GetBy<t:repository.primaryKey.Name>Async(<t:repository.primaryKey.type> <t:repository.primaryKey.name>, string columns = "*")
+{
+    using (var conn = GetReadonlyConnection())
+    {
+        var sql = $@"SELECT TOP 1 {columns} FROM <t:repository.table> WHERE <t:repository.primaryKey.nameOriginal> = @<t:repository.primaryKey.nameOriginal>";
+        var dps = new DynamicParameters();
+        dps.Add("<t:repository.primaryKey.nameOriginal>", <t:repository.primaryKey.name>);
+        return this.QueryFirstOrDefaultAsync<<t:repository.dabaseModel>>(sql, dps);
+    }
+}
+
+/// <summary>
+/// Get record list by primary key <t:repository.primaryKey.nameOriginal> collection
+/// </summary>
+/// <param name="<t:repository.primaryKey.names>">Target records <t:repository.primaryKey.nameOriginal> collection</param>
+/// <param name="columns">Specific columns, "*" for default</param>
+/// <returns>
+/// Database model collection result
+/// </returns>
+public IEnumerable<<t:repository.dabaseModel>> GetListBy<t:repository.primaryKey.Name>(IEnumerable<<t:repository.primaryKey.type>> <t:repository.primaryKey.names>, string columns = "*")
+{
+    using (var conn = GetReadonlyConnection())
+    {
+        var sql = $@"SELECT {columns} FROM <t:repository.table> WHERE <t:repository.primaryKey.nameOriginal> IN @<t:repository.primaryKey.nameOriginals>";
+        var dps = new DynamicParameters();
+        dps.Add("<t:repository.primaryKey.nameOriginals>", <t:repository.primaryKey.names>);
+        return this.Query<<t:repository.dabaseModel>>(sql, dps);
+    }
+}
+
+/// <summary>
+/// Get record list by primary key <t:repository.primaryKey.nameOriginal> collection, asynchronously
+/// </summary>
+/// <param name="<t:repository.primaryKey.names>">Target records <t:repository.primaryKey.nameOriginal> collection</param>
+/// <param name="columns">Specific columns, "*" for default</param>
+/// <returns>
+/// Database model collection result, asynchronous
+/// </returns>
+public Task<IEnumerable<<t:repository.dabaseModel>>> GetListBy<t:repository.primaryKey.Name>Async(IEnumerable<<t:repository.primaryKey.type>> <t:repository.primaryKey.names>, string columns = "*")
+{
+    using (var conn = GetReadonlyConnection())
+    {
+        var sql = $@"SELECT {columns} FROM <t:repository.table> WHERE <t:repository.primaryKey.nameOriginal> IN @<t:repository.primaryKey.nameOriginals>";
+        var dps = new DynamicParameters();
+        dps.Add("<t:repository.primaryKey.nameOriginals>", <t:repository.primaryKey.names>);
+        return this.QueryAsync<<t:repository.dabaseModel>>(sql, dps);
+    }
+}
+
+/// <summary>
+/// Get specific record AS generic model by primary key <t:repository.primaryKey.nameOriginal>
+/// </summary>
+/// <param name="<t:repository.primaryKey.name>">Target record <t:repository.primaryKey.nameOriginal></param>
+/// <param name="columns">Specific columns, "*" for default</param>
+/// <returns>
+/// Generic model result
+/// </returns>
+public T GetBy<t:repository.primaryKey.Name><T>(<t:repository.primaryKey.type> <t:repository.primaryKey.name>, string columns = "*")
+{
+    using (var conn = GetReadonlyConnection())
+    {
+        var sql = $@"SELECT TOP 1 {columns} FROM <t:repository.table> WHERE <t:repository.primaryKey.nameOriginal> = @<t:repository.primaryKey.nameOriginal>";
+        var dps = new DynamicParameters();
+        dps.Add("<t:repository.primaryKey.nameOriginal>", <t:repository.primaryKey.name>);
+        return this.QueryFirstOrDefault<T>(sql, dps);
+    }
+}
+
+/// <summary>
+/// Get specific record as generic model by primary key <t:repository.primaryKey.nameOriginal>, asynchronously
+/// </summary>
+/// <param name="<t:repository.primaryKey.name>">Target record <t:repository.primaryKey.nameOriginal></param>
+/// <param name="columns">Specific columns, "*" for default</param>
+/// <returns>
+/// Generic model result, asynchronous
+/// </returns>
+public Task<T> GetBy<t:repository.primaryKey.Name>Async<T>(<t:repository.primaryKey.type> <t:repository.primaryKey.name>, string columns = "*")
+{
+    using (var conn = GetReadonlyConnection())
+    {
+        var sql = $@"SELECT TOP 1 {columns} FROM <t:repository.table> WHERE <t:repository.primaryKey.nameOriginal> = @<t:repository.primaryKey.nameOriginal>";
+        var dps = new DynamicParameters();
+        dps.Add("<t:repository.primaryKey.nameOriginal>", <t:repository.primaryKey.name>);
+        return this.QueryFirstOrDefaultAsync<T>(sql, dps);
+    }
+}
+
+/// <summary>
+/// Get records as generic model list by primary key <t:repository.primaryKey.nameOriginal> collection
+/// </summary>
+/// <param name="<t:repository.primaryKey.names>">Target records <t:repository.primaryKey.nameOriginal> collection</param>
+/// <param name="columns">Specific columns, "*" for default</param>
+/// <returns>
+/// Generic model collection result
+/// </returns>
+public IEnumerable<T> GetListBy<t:repository.primaryKey.Name><T>(IEnumerable<<t:repository.primaryKey.type>> <t:repository.primaryKey.names>, string columns = "*")
+{
+    using (var conn = GetReadonlyConnection())
+    {
+        var sql = $@"SELECT {columns} FROM <t:repository.table> WHERE <t:repository.primaryKey.nameOriginal> IN @<t:repository.primaryKey.nameOriginals>";
+        var dps = new DynamicParameters();
+        dps.Add("<t:repository.primaryKey.nameOriginals>", <t:repository.primaryKey.names>);
+        return this.Query<T>(sql, dps);
+    }
+}
+
+/// <summary>
+/// Get records as generic model list by primary key <t:repository.primaryKey.nameOriginal> collection, asynchronously
+/// </summary>
+/// <param name="<t:repository.primaryKey.names>">Target records <t:repository.primaryKey.nameOriginal> collection</param>
+/// <param name="columns">Specific columns, "*" for default</param>
+/// <returns>
+/// Generic model collection result, asynchronous
+/// </returns>
+public Task<IEnumerable<T>> GetListBy<t:repository.primaryKey.Name>Async<T>(IEnumerable<<t:repository.primaryKey.type>> <t:repository.primaryKey.names>, string columns = "*")
+{
+    using (var conn = GetReadonlyConnection())
+    {
+        var sql = $@"SELECT {columns} FROM <t:repository.table> WHERE <t:repository.primaryKey.nameOriginal> IN @<t:repository.primaryKey.nameOriginals>";
+        var dps = new DynamicParameters();
+        dps.Add("<t:repository.primaryKey.nameOriginals>", <t:repository.primaryKey.names>);
+        return this.QueryAsync<T>(sql, dps);
+    }
+}

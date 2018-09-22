@@ -8,12 +8,12 @@
 /// </returns>
 public int DeleteSoftlyByWhere(string sqlWhere, object whereDps)
 {
-	using (var conn = GetWritableConnection())
-	{
-		var sql = $@"Update <t:repository.table> SET <t:repository.deleteMarker> = 1 WHERE {sqlWhere}";
-		var dps = new DynamicParameters(whereDps);
-		return this.ExecuteScalar(sql, dps);
-	}
+    using (var conn = GetWritableConnection())
+    {
+        var sql = $@"Update <t:repository.table> SET <t:repository.deleteColumn> = 1 WHERE {sqlWhere}";
+        var dps = new DynamicParameters(whereDps);
+        return this.Execute(sql, dps);
+    }
 }
 
 /// <summary>
@@ -26,10 +26,10 @@ public int DeleteSoftlyByWhere(string sqlWhere, object whereDps)
 /// </returns>
 public Task<int> DeleteSoftlyByWhereAsync(string sqlWhere, object whereDps)
 {
-	using (var conn = GetWritableConnection())
-	{
-		var sql = $@"Update <t:repository.table> SET <t:repository.deleteMarker> = 1 WHERE {sqlWhere}";
-		var dps = new DynamicParameters(whereDps);
-		return this.ExecuteScalarAsync(sql, dps);
-	}
+    using (var conn = GetWritableConnection())
+    {
+        var sql = $@"Update <t:repository.table> SET <t:repository.deleteColumn> = 1 WHERE {sqlWhere}";
+        var dps = new DynamicParameters(whereDps);
+        return this.ExecuteAsync(sql, dps);
+    }
 }
